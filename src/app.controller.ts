@@ -6,13 +6,11 @@ class User {
   constructor(public readonly name: string) {}
 }
 
-type A = User["name"];
-
 // class-validator で値があることは担保しているので、non-null assertion は許容
 class CreateUserDto {
   @ApiProperty()
   @IsString()
-  name!: A;
+  name!: User["name"];
 }
 
 @Controller()
