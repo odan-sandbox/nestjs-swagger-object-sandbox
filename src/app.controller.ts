@@ -1,5 +1,6 @@
 import { Controller, Get, Post, Body } from "@nestjs/common";
 import { ApiProperty } from "@nestjs/swagger";
+import { IsString } from "class-validator";
 
 class User {
   constructor(public readonly name: string) {}
@@ -7,13 +8,11 @@ class User {
 
 type A = User["name"];
 
+// class-validator で値があることは担保しているので、non-null assertion は許容
 class CreateUserDto {
   @ApiProperty()
-  name: A;
-
-  constructor(args: typeof CreateUserDto.prototype) {
-    this.name = args.name;
-  }
+  @IsString()
+  name!: A;
 }
 
 @Controller()

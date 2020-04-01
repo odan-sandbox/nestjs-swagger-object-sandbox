@@ -2,6 +2,7 @@ import { NestFactory } from "@nestjs/core";
 import { SwaggerModule, DocumentBuilder } from "@nestjs/swagger";
 
 import { AppModule } from "./app.module";
+import { ValidationPipe } from "@nestjs/common";
 
 process.on("unhandledRejection", reason => {
   console.error(reason);
@@ -14,6 +15,8 @@ async function bootstrap(): Promise<void> {
   const options = new DocumentBuilder().setTitle("example").build();
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup("api", app, document);
+
+  app.useGlobalPipes(new ValidationPipe({ transform: false }));
 
   await app.listen(3000);
 }
